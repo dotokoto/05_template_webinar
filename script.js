@@ -18,9 +18,18 @@ function deleteCard(event) {
 	event.target.closest('.list__item').remove();
 }
 
+function cloneCard(event) {
+	const clonedCard = event.target.closest('.list__item').cloneNode(true);
+	addCard(clonedCard);
+}
+
 function addCardEventListeners (card) {
 	const deleteButton = card.querySelector('.delete');
 	deleteButton.addEventListener('click', deleteCard);
+
+	const cloneButton = card.querySelector('.duplicate');
+	cloneButton.addEventListener('click', cloneCard);
+
 }
 
 function createCard(text) {
