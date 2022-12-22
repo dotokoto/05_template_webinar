@@ -14,10 +14,20 @@ const cardTemplate = document
 const form = document.querySelector('.form');
 const input = document.querySelector('.form__input');
 
+function deleteCard(event) {
+	event.target.closest('.list__item').remove();
+}
+
+function addCardEventListeners (card) {
+	const deleteButton = card.querySelector('.delete');
+	deleteButton.addEventListener('click', deleteCard);
+}
+
 function createCard(text) {
 	const card = cardTemplate.cloneNode(true);
 	const cardText = card.querySelector('.item__text');
 	cardText.textContent = text;
+	addCardEventListeners(card);
 
 	return card;
 }
