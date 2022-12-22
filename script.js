@@ -13,6 +13,9 @@ const cardTemplate = document
 
 const form = document.querySelector('.form');
 const input = document.querySelector('.form__input');
+const button = document.querySelector('.form__submit');
+
+let editableCard = null;
 
 function deleteCard(event) {
 	event.target.closest('.list__item').remove();
@@ -23,6 +26,33 @@ function cloneCard(event) {
 	addCard(clonedCard);
 }
 
+function switchFormToAddMode() {
+	input.value = '';
+	button.textContent = 'Добавить';
+	form.removeEventListener('submit', editCard);
+	form.addEventListener('submit', submitForm);
+}
+
+function editCard(event) {
+	event.preventDefault();
+	const cardText = editableCard.querySelector('.item__text');
+	cardText.textContent = input.value;
+
+	switchFormToAddMode();
+}
+
+function switchFormToEditMode(event) {
+	const card = event.target.closest('.list__item');
+	const cardText = card.querySelector('.item__text');
+	input.value = cardText.textContent;
+	button.textContent = 'Изменить';
+
+	form.removeEventListener('submit', submitForm);
+	form.addEventListener('submit', editCard);
+
+	editableCard = card;
+}
+
 function addCardEventListeners (card) {
 	const deleteButton = card.querySelector('.delete');
 	deleteButton.addEventListener('click', deleteCard);
@@ -30,6 +60,8 @@ function addCardEventListeners (card) {
 	const cloneButton = card.querySelector('.duplicate');
 	cloneButton.addEventListener('click', cloneCard);
 
+	const editButton = card.querySelector('.edit');
+	editButton.addEventListener('click', switchFormToEditMode);
 }
 
 function createCard(text) {
